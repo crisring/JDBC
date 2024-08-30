@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 public class Dept_Run {
 
-	public static void main(String[] args) {
+	public void searchDEPT() {
 
 		Dept dept = new Dept();
 
@@ -12,10 +12,17 @@ public class Dept_Run {
 		String loc = "DALLAS";
 
 		try {
-			dept.search(loc, dname);
+			System.out.println(dept.selectDEPT(loc, dname));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+	}
+
+	public static void main(String[] args) {
+
+		Dept_Run drun = new Dept_Run();
+		drun.searchDEPT();
 
 	}
 

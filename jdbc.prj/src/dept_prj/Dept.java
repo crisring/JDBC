@@ -11,7 +11,9 @@ import java.sql.Statement;
  */
 public class Dept {
 
-	public String search(String loc, String dname) throws SQLException {
+	public String selectDEPT(String loc, String dname) throws SQLException {
+
+		String data = null;
 
 		// 1. 드라이버 로딩
 		try {
@@ -21,7 +23,6 @@ public class Dept {
 			e.printStackTrace();
 		}
 		// 2. 커넥션 얻기
-
 		Connection con = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -37,24 +38,21 @@ public class Dept {
 			stmt = con.createStatement();
 
 			// 4. 쿼리문 사용
-			String data = null;
+
 			StringBuilder searchDept = new StringBuilder();
 
 			// 지역만 넘어온 경우 지역만 검색 결과 리턴
-			if (loc != null && dname == null) {
+			if (loc != null && dname.isEmpty()) {
 				searchDept = new StringBuilder();
-				searchDept.append("select loc from dept where loc=").append("'").append(loc).append("'");
+				searchDept.append("select deptno,dname,loc from dept where loc=").append("'").append(loc).append("'");
 				System.out.println(searchDept);
 				rs = stmt.executeQuery(searchDept.toString());
 
 				while (rs.next()) {
-					String loc1 = rs.getString(1);
+					String loc1 = rs.getString("loc");
 					data = loc1;
 				} // end while
-			}
-
-			// 이름만 넘어온 경우 이름만 검색 결과 리턴
-			else if (loc == null && dname != null) {
+			} else if (loc.isEmpty() && dname != null) {
 
 				searchDept.append("select dname from dept where dname=").append("'").append(dname).append("'");
 				rs = stmt.executeQuery(searchDept.toString());
@@ -63,15 +61,15 @@ public class Dept {
 					String loc1 = rs.getString(1);
 					data = loc1;
 				} // end while
-			} else {
+			} else { // 지역, 부서이름 둘 다 넘어온 경우 둘 다 리턴
 				searchDept = new StringBuilder();
 				searchDept.append("select loc, dname from dept where dname=").append("'").append(dname)
-						.append("', loc='").append(loc).append("'");
+						.append("' and loc='").append(loc).append("'");
 
 				rs = stmt.executeQuery(searchDept.toString());
 
 				while (rs.next()) {
-					String loc1 = rs.getString("loc");
+					String loc1 = rs.getString(1);
 					String dname1 = rs.getString("dname");
 					data = loc1 + "\t" + dname1;
 				} // end while
@@ -94,4 +92,4 @@ public class Dept {
 		} // try~finallyF
 
 	}// search
-}
+}// class

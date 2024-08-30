@@ -2,6 +2,7 @@ package day0829;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -11,7 +12,9 @@ import kr.co.sist.vo.CpEmpVO;
 
 /**
  * DAO (Data Access Object) : DB작업을 목적으로 만드는 클래스 <br>
- * DBMS의 업무만 정의 업무로직을 구현하지 않는다.
+ * DBMS의 업무만 정의 업무로직을 구현하지 않는다. <br>
+ * 쿼리문을 작성하고 실행 <br>
+ * method명 작성 : 쿼리문이 method명에 반영되어야한다.
  */
 public class StatementDAO {
 
@@ -157,7 +160,7 @@ public class StatementDAO {
 			deleteCpEmp.append("delete from cp_emp2 where empno=").append(empno);
 
 			System.out.println(deleteCpEmp);
-			// rowCnt = stmt.executeUpdate(deleteCpEmp.toString());
+			rowCnt = stmt.executeUpdate(deleteCpEmp.toString());
 
 		} finally {
 
@@ -177,7 +180,8 @@ public class StatementDAO {
 	}// deleteCpEmp
 
 	/**
-	 * 사원번호를 입력받아 사원 정보를 조회하는 일
+	 * 사원번호를 입력받아 사원 정보를 조회하는 일 => 한행 조회 <br>
+	 * 사원명,직무, 매니저번호, 입사일, 연봉, 부서번호 <br>
 	 * 
 	 * @param empno 검색할 사원번호
 	 * @return 사원번호로 검색한 결과
@@ -185,6 +189,64 @@ public class StatementDAO {
 	 */
 	public CpEmpVO selectOnEmp(int empno) throws SQLException {
 		CpEmpVO ceVO = null;
+
+		// 2. 커넥션 연결
+		Connection con = null;
+		// 3. statement 얻기
+		Statement stmt = null;
+		ResultSet rs = null;
+
+		// 1. 드라이버 로딩
+		try {
+			Class.forName("oracle.jdbc.OracleDriver");
+			String url = "jdbc:oracle:thin:@localhost:1521:orcl";
+			String id = "scott";
+			String passWord = "tiger";
+
+			con = DriverManager.getConnection(url, id, passWord);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		stmt = con.createStatement();
+		// 4. 쿼리문 사용
+		StringBuilder selectOncCpEmp = new StringBuilder();
+		selectOncCpEmp.append("SELECT ename, job, mgr, hiredate, ")
+				.append("TO_CHAR(hiredate, 'MM-DD-YYYY Q\" 분기 \" ') AS hire2, ").append("sal, deptno ")
+				.append("FROM cp_emp2 ").append("WHERE empno = ").append(empno);
+		System.out.println(selectOncCpEmp);
+		rs = stmt.executeQuery(selectOncCpEmp.toString());
+
+		// 조회 결과를 받아서 VO에 설정
+		if (rs.next()) {
+			ceVO = new CpEmpVO();
+			ceVO.setEname(rs.getString("ename"));
+			ceVO.setJob(rs.getString("job"));
+			ceVO.setMgr(rs.getInt("mgr"));
+			ceVO.setHiredate(rs.getDate("hiredate"));
+			ceVO.setHiredateStr(rs.getString("hire2"));
+			ceVO.setSal(rs.getInt("sal"));
+			ceVO.setDeptno(rs.getInt("deptno"));
+
+			// 사원번호는 조회x
+			ceVO.setEmpno(empno);
+		}
+
+		try {
+		} finally {
+			// 객체가 만들어져 있으면 끊기
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (stmt != null) {
+				stmt.close();
+			}
+
+			if (con != null) {
+				con.close();
+			}
+
+		}
 
 		return ceVO;
 	}// selectOnEmp
@@ -196,7 +258,51 @@ public class StatementDAO {
 	 * @throws SQLException
 	 */
 	public List<CpEmpVO> selectAllCpEmp() throws SQLException {
-		List<CpEmpVO> list = new ArrayList<CpEmpVO>();
+
+		List<CpEmpVO> list = new ArrayList<CpEmpVO>(); // 여러 레코드를 한번에 저장
+
+		try {
+			Class.forName("oracle.jdbc.OracleDriver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		// connection
+		Connection con = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			String url = "jdbc:oracle:thin:@localhost:1521:orcl";
+			String id = "scott";
+			String passWord = "tiger";
+
+			con = DriverManager.getConnection(url, id, passWord);
+			stmt = con.createStatement();
+			StringBuilder selectAllCpEmp = new StringBuilder();
+
+			selectAllCpEmp.append(" select empno,ename,job,mgr,hiredate,sal,comm,deptno from Cp_emp2");
+			rs = stmt.executeQuery(selectAllCpEmp.toString());
+
+			while (rs.next()) {
+				CpEmpVO ceVO = new CpEmpVO(rs.getInt("empno"), rs.getInt("mgr"), rs.getInt("sal"), rs.getInt("comm"),
+						rs.getInt("deptno"), rs.getString("ename"), rs.getString("job"), rs.getDate("hiredate"));
+
+				list.add(ceVO);
+
+			}
+
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+			if (stmt != null) {
+				stmt.close();
+			}
+			if (con != null) {
+				con.close();
+			}
+		}
 
 		return list;
 	}

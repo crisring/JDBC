@@ -2,11 +2,17 @@ package kr.co.sist.vo;
 
 import java.sql.Date;
 
+/**
+ * VO : 화면에서 입력된 값이 DBMS로 전달되거나, DMBS에 검색된 값이 화면으로 전달되는 용도의 클래스
+ */
 public class CpEmpVO {
 
 	private int empno, mgr, sal, comm, deptno;
 	private String ename, job, hiredateStr;
 	private Date hiredate;
+
+	public CpEmpVO() {
+	}
 
 	public CpEmpVO(int empno, int mgr, int sal, int comm, int deptno, String ename, String job) {
 		super();
@@ -19,7 +25,16 @@ public class CpEmpVO {
 		this.ename = ename;
 	}
 
-	public CpEmpVO() {
+	public CpEmpVO(int empno, int mgr, int sal, int comm, int deptno, String ename, String job, Date hiredate) {
+		super();
+		this.empno = empno;
+		this.mgr = mgr;
+		this.sal = sal;
+		this.comm = comm;
+		this.deptno = deptno;
+		this.job = job;
+		this.ename = ename;
+		this.hiredate = hiredate;
 	}
 
 	public int getEmpno() {

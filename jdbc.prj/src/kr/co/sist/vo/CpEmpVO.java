@@ -2,38 +2,36 @@ package kr.co.sist.vo;
 
 import java.sql.Date;
 
-/**
- * VO : 화면에서 입력된 값이 DBMS로 전달되거나, DMBS에 검색된 값이 화면으로 전달되는 용도의 클래스
- */
 public class CpEmpVO {
-
-	private int empno, mgr, sal, comm, deptno;
+	private int empno, mgr, deptno;
+	private double sal, comm;
 	private String ename, job, hiredateStr;
 	private Date hiredate;
 
 	public CpEmpVO() {
 	}
 
-	public CpEmpVO(int empno, int mgr, int sal, int comm, int deptno, String ename, String job) {
-		super();
+	public CpEmpVO(int empno, int mgr, int deptno, double sal, double comm, String ename, String job) {
 		this.empno = empno;
 		this.mgr = mgr;
+		this.deptno = deptno;
 		this.sal = sal;
 		this.comm = comm;
-		this.deptno = deptno;
-		this.job = job;
 		this.ename = ename;
+		this.job = job;
 	}
 
-	public CpEmpVO(int empno, int mgr, int sal, int comm, int deptno, String ename, String job, Date hiredate) {
+	public CpEmpVO(int empno, int mgr, int deptno, double sal, double comm, String ename, String job,
+			String hiredateStr, Date hiredate) {
 		super();
 		this.empno = empno;
 		this.mgr = mgr;
+		this.deptno = deptno;
 		this.sal = sal;
 		this.comm = comm;
-		this.deptno = deptno;
-		this.job = job;
 		this.ename = ename;
+		this.job = job;
+		this.hiredateStr = hiredateStr;
 		this.hiredate = hiredate;
 	}
 
@@ -53,28 +51,36 @@ public class CpEmpVO {
 		this.mgr = mgr;
 	}
 
-	public int getSal() {
-		return sal;
-	}
-
-	public void setSal(int sal) {
-		this.sal = sal;
-	}
-
-	public int getComm() {
-		return comm;
-	}
-
-	public void setComm(int comm) {
-		this.comm = comm;
-	}
-
 	public int getDeptno() {
 		return deptno;
 	}
 
 	public void setDeptno(int deptno) {
 		this.deptno = deptno;
+	}
+
+	public double getSal() {
+		return sal;
+	}
+
+	public void setSal(double sal) {
+		this.sal = sal;
+	}
+
+	public double getComm() {
+		return comm;
+	}
+
+	public void setComm(double comm) {
+		this.comm = comm;
+	}
+
+	public String getEname() {
+		return ename;
+	}
+
+	public void setEname(String ename) {
+		this.ename = ename;
 	}
 
 	public String getJob() {
@@ -101,18 +107,10 @@ public class CpEmpVO {
 		this.hiredate = hiredate;
 	}
 
-	public String getEname() {
-		return ename;
-	}
-
-	public void setEname(String ename) {
-		this.ename = ename;
-	}
-
 	@Override
 	public String toString() {
-		return "CpEmpVO [empno=" + empno + ", mgr=" + mgr + ", sal=" + sal + ", comm=" + comm + ", deptno=" + deptno
-				+ ", job=" + job + ", hiredateStr=" + hiredateStr + ", hiredate=" + hiredate + "]";
+		return "CpEmpVO [empno=" + empno + ", mgr=" + mgr + ", deptno=" + deptno + ", sal=" + sal + ", comm=" + comm
+				+ ", ename=" + ename + ", job=" + job + ", hiredateStr=" + hiredateStr + ", hiredate=" + hiredate + "]";
 	}
 
 }// class

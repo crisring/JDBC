@@ -284,9 +284,11 @@ public class StatementDAO {
 			selectAllCpEmp.append(" select empno,ename,job,mgr,hiredate,sal,comm,deptno from Cp_emp2");
 			rs = stmt.executeQuery(selectAllCpEmp.toString());
 
+			// empno, mgr, deptno, sal, comm, ename, job, hiredateStr, hiredate
 			while (rs.next()) {
-				CpEmpVO ceVO = new CpEmpVO(rs.getInt("empno"), rs.getInt("mgr"), rs.getInt("sal"), rs.getInt("comm"),
-						rs.getInt("deptno"), rs.getString("ename"), rs.getString("job"), rs.getDate("hiredate"));
+				CpEmpVO ceVO = new CpEmpVO(rs.getInt("empno"), rs.getInt("mgr"), rs.getInt("deptno"), rs.getInt("sal"),
+						rs.getInt("comm"), rs.getString("ename"), rs.getString("job"), rs.getString("hiredate"),
+						rs.getDate("hiredate"));
 
 				list.add(ceVO);
 

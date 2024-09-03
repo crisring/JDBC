@@ -8,8 +8,13 @@ import javax.swing.JTextArea;
 
 public class RunTableSchema {
 
-	String tableName;
+	private String tableName;
 
+	/**
+	 * 모든 테이블 출력
+	 * 
+	 * @throws SQLException
+	 */
 	public RunTableSchema() throws SQLException {
 
 		TableSchemaDAO tsDAO = TableSchemaDAO.getInstance();
@@ -27,6 +32,9 @@ public class RunTableSchema {
 
 	}// RunTableSchema
 
+	/**
+	 * table 스키마 정보 출력
+	 */
 	public void searchTable() {
 		TableSchemaDAO tsDAO = TableSchemaDAO.getInstance();
 
@@ -38,17 +46,18 @@ public class RunTableSchema {
 					.append("\n----------------------------------------------------------------------------------\n");
 
 			if (list.isEmpty()) {
+				output.setLength(0);
 				output.append(tableName + "정보가 존재하지 않습니다.");
-			} else {
+				JOptionPane.showMessageDialog(null, output);
+				return;
+			}
 
-				for (SchemaVO sVO : list) {
+			for (SchemaVO sVO : list) {
 
-					output.append(sVO.getColumnName()).append("\t");
-					output.append(sVO.getColumnLableName()).append("\t");
-					output.append(sVO.getDataSize()).append("\t");
-					output.append(sVO.getIsNuallalbe()).append("\n");
-
-				}
+				output.append(sVO.getColumnName()).append("\t");
+				output.append(sVO.getColumnLableName()).append("\t");
+				output.append(sVO.getDataSize()).append("\t");
+				output.append(sVO.getIsNuallalbe()).append("\n");
 
 			}
 

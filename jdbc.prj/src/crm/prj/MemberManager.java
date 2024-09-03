@@ -8,5 +8,8 @@ package crm.prj;
  * readMenu() 메소드에서는 사용자가 입력한 숫자에 따라 다음과 같이 분기처리한다.
  */
 public class MemberManager {
+	
+	
+	
 
 }

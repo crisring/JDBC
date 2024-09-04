@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
-import day0830.DbConnection;
+import kr.co.sist.vo.DbConnection;
 
 public class UseResultSetMetaData {
 

@@ -9,8 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import day0830.DbConnection;
 import kr.co.sist.vo.ClobVO;
+import kr.co.sist.vo.DbConnection;
 
 public class UseClob {
 

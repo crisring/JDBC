@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import day0830.DbConnection;
+import kr.co.sist.vo.DbConnection;
 
 public class UseLikeDAO {
 

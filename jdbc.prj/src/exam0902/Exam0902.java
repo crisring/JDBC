@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
-import day0830.DbConnection;
+import kr.co.sist.vo.DbConnection;
 
 public class Exam0902 {
 

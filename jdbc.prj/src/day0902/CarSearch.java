@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import day0830.DbConnection;
+import kr.co.sist.vo.DbConnection;
 
 /**
  * 문제 : 제조사를 입력받아 해당 제조사의 모든 차량을 검색하는 코드 작성 preparestatemnet 사용 <Br>

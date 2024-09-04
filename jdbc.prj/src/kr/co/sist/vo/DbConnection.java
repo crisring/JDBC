@@ -5,68 +5,83 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-/**
- * DB와 연결된 Connection 객체를 반환하고, DB관련객체들의 연결을 끊는 일.
- */
 public class DbConnection {
-	private static DbConnection dbCon;
 
+	// Volatile keyword ensures visibility of changes to variables across threads
+	private static volatile DbConnection dbCon;
+
+	// Private constructor to prevent instantiation
 	private DbConnection() {
-	}// DbConnection
+	}
 
+	// Thread-safe Singleton instance retrieval
 	public static DbConnection getInstance() {
 		if (dbCon == null) {
-			dbCon = new DbConnection();
-		} // end if
+			synchronized (DbConnection.class) {
+				if (dbCon == null) {
+					dbCon = new DbConnection();
+				}
+			}
+		}
 		return dbCon;
-	}// getInstance
+	}
 
-	/**
-	 * Connection을 반환하는 일
-	 * 
-	 * @return
-	 * @throws SQLException
-	 */
-	public Connection getConn() throws SQLException {
+	public Connection getConn() {
 		Connection con = null;
-
-		// 1. 드라이버 로딩
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");
+
+			String url = "jdbc:oracle:thin:@localhost:1521:orcl";
+			String id = "scott";
+			String passWord = "tiger";
+
+			con = DriverManager.getConnection(url, id, passWord);
 		} catch (ClassNotFoundException e) {
+			System.err.println("Driver not found.");
 			e.printStackTrace();
-		} // end catch
-
-		// 2. 커넥션 얻기
-		String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-		String id = "scott";
-		String pass = "tiger";
-
-		con = DriverManager.getConnection(url, id, pass);
-
+		} catch (SQLException e) {
+			System.err.println("Connection failed.");
+			e.printStackTrace();
+		}
 		return con;
-	}// getConn
+	}
 
-	/**
-	 * DB연결객체들의 연결을 끊는 일.
-	 * 
-	 * @param rs
-	 * @param pstmt
-	 * @param con
-	 * @throws SQLException
-	 */
-	public void dbClose(ResultSet rs, PreparedStatement pstmt, Connection con) throws SQLException {
-		if (rs != null) {
-			rs.close();
-		} // end if
-		if (pstmt != null) {
-			pstmt.close();
-		} // end if
-		if (con != null) {
-			con.close();
-		} // end if
-	}// dbClose
+	// OverLoading
+	public Connection getConn(String ip, String id, String passWord) {
+		Connection con = null;
+		try {
+			Class.forName("oracle.jdbc.OracleDriver");
+			System.out.println("Driver loading...");
 
-}// class
+			String url = "jdbc:oracle:thin:@" + ip + ":1521:orcl";
+
+			con = DriverManager.getConnection(url, id, passWord);
+			System.out.println("Driver loaded successfully!!");
+		} catch (ClassNotFoundException e) {
+			System.err.println("Driver not found.");
+			e.printStackTrace();
+		} catch (SQLException e) {
+			System.err.println("Connection failed.");
+			e.printStackTrace();
+		}
+		return con;
+	}
+
+	// Close resources method
+	public void dbClose(ResultSet rs, PreparedStatement pstmt, Connection con) {
+		try {
+			if (rs != null) {
+				rs.close();
+			}
+			if (pstmt != null) {
+				pstmt.close();
+			}
+			if (con != null) {
+				con.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+}

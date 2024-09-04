@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import day0830.DbConnection;
 import exam0902.SchemaVO;
+import kr.co.sist.vo.DbConnection;
 
 public class TableSchemaDAO {
 

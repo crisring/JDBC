@@ -3,6 +3,7 @@ package crm.prj;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import kr.co.sist.vo.DbConnection;
 
@@ -17,13 +18,14 @@ public class MemberDAO {
 	/**
 	 * 회원등록 - insert <br>
 	 * 아이디 비번을
+	 * 
+	 * @throws SQLException
 	 */
-	public void insertMember() {
+	public void insertMember(String member_id, String name, String phone_number) throws SQLException {
 
 		DbConnection dbCon = DbConnection.getInstance();
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 
 		try {
 			con = dbCon.getConn();
@@ -31,13 +33,15 @@ public class MemberDAO {
 			String insertMember = "insert into member(MEMBER_ID, NAME, PHONE_NUMBER) values(?,?,?)";
 
 			pstmt = con.prepareStatement(insertMember);
-			
-			pstmt.set
-			rs = pstmt.executeUpdate();
+
+			pstmt.setString(1, member_id);
+			pstmt.setString(2, name);
+			pstmt.setString(3, phone_number);
+			pstmt.executeUpdate();
 
 		} finally {
 
-			dbCon.dbClose(rs, pstmt, con);
+			dbCon.dbClose(null, pstmt, con);
 		}
 
 	}// insertMember

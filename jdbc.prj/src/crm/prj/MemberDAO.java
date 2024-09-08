@@ -2,7 +2,6 @@ package crm.prj;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import kr.co.sist.vo.DbConnection;
@@ -17,7 +16,7 @@ public class MemberDAO {
 
 	/**
 	 * 회원등록 - insert <br>
-	 * 아이디 비번을
+	 * 아이디, 이름, 비번을 입력받아 추가
 	 * 
 	 * @throws SQLException
 	 */
@@ -48,8 +47,29 @@ public class MemberDAO {
 
 	/**
 	 * 회원 수정 - Update
+	 * 
+	 * @throws SQLException
 	 */
-	public void updateMember() {
+	public void updateMember() throws SQLException {
+
+		DbConnection dbCon = DbConnection.getInstance();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = dbCon.getConn();
+
+			String updateMember = "	update member set name = ?, phone_number = ? where MEMBER_ID";
+
+			pstmt = con.prepareStatement(updateMember);
+
+			pstmt.executeUpdate();
+
+		} finally {
+
+			dbCon.dbClose(null, pstmt, con);
+		}
+
 	}// updateMember
 
 	/**

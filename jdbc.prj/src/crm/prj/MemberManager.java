@@ -1,5 +1,7 @@
 package crm.prj;
 
+import javax.swing.JFrame;
+
 /**
  * MemberDAO 와 사용자가 키보드를 통해 입력한 데이터를 읽어들이는 입력 스트림을 멤버변수(필드)로 선언하고, <br>
  * 멤버번수를 초기화하는 생성자를 작성한다.<br>
@@ -15,6 +17,32 @@ package crm.prj;
  * 0 프로그램 종료
  * 
  */
-public class MemberManager {
+
+public class MemberManager extends JFrame {
+
+	private static final int MemberList = 1;
+	private static final int insertMember = 2;
+	private static final int updateMember = 3;
+	private static final int deleteMember = 4;
+
+	/**
+	 * SerialVersion 설정
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 메뉴를 불러오는 method
+	 */
+	public void readMenu() {
+		setTitle("회원 관리 프로그램");
+		setSize(800, 700);
+		setVisible(true);
+	}
+
+	public static void main(String[] args) {
+		MemberManager mm = new MemberManager();
+
+		mm.readMenu();
+	}
 
 }

@@ -12,6 +12,13 @@ public class Member {
 	private String name;
 	private String phone_Number;
 
+	public Member(String member_ID, String name, String phone_Number) {
+		super();
+		this.member_ID = member_ID;
+		this.name = name;
+		this.phone_Number = phone_Number;
+	}
+
 	@Override
 	public String toString() {
 		return "Member [member_ID=" + member_ID + ", name=" + name + ", phone_Number=" + phone_Number + "]";

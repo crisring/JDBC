@@ -14,6 +14,21 @@ import kr.co.sist.vo.DbConnection;
 
 public class MemberDAO {
 
+	private static MemberDAO mDAO;
+
+	private MemberDAO() {
+
+	}
+
+	public static MemberDAO getInstance() {
+
+		if (mDAO == null) {
+			mDAO = new MemberDAO();
+		}
+
+		return mDAO;
+	}
+
 	/**
 	 * 회원등록 - insert <br>
 	 * 아이디, 이름, 비번을 입력받아 추가
@@ -76,6 +91,16 @@ public class MemberDAO {
 	 * 회원 삭제
 	 */
 	public void deleteMember() {
+
+		DbConnection dbCon = DbConnection.getInstance();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = dbCon.getConn();
+
+		} finally {
+		}
 
 	}// deleteMember
 
